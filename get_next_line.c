@@ -6,7 +6,7 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/12 14:21:40 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/19 13:06:37 by clingier         ###   ########.fr       */
+/*   Updated: 2018/10/22 13:12:11 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,28 @@ static void		ft_getline(int fd, char **files, char **line)
 
 static void		ft_get_content(int fd, char **files)
 {
-	char	buf[BUFF_SIZE + 1];
+	char	*buf;
 	char	*temp;
 	int		ret;
 
-	while ((ret = read(fd, buf, BUFF_SIZE)))
+	if (!(buf = ft_strnew(BUFF_SIZE + 1)))
+		return ;
+	while ((ret = read(fd, buf, BUFF_SIZE)) && ret != -1)
 	{
 		buf[ret] = '\0';
 		temp = files[fd];
 		if (!(files[fd] = ft_strjoin(files[fd], buf)))
+		{
+			free(buf);
 			return ;
+		}
 		free(temp);
 		if (ft_strchr(files[fd], '\n'))
 			break ;
 	}
+	if (ret == -1)
+		files[fd] = NULL;
+	free(buf);
 }
 
 int				get_next_line(int fd, char **line)
