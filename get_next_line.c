@@ -6,7 +6,7 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/12 14:21:40 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/22 13:12:11 by clingier         ###   ########.fr       */
+/*   Updated: 2018/10/29 10:26:15 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		ft_get_content(int fd, char **files)
 
 	if (!(buf = ft_strnew(BUFF_SIZE + 1)))
 		return ;
-	while ((ret = read(fd, buf, BUFF_SIZE)) && ret != -1)
+	while ((ret = read(fd, buf, BUFF_SIZE)))
 	{
 		buf[ret] = '\0';
 		temp = files[fd];
@@ -46,8 +46,6 @@ static void		ft_get_content(int fd, char **files)
 		if (ft_strchr(files[fd], '\n'))
 			break ;
 	}
-	if (ret == -1)
-		files[fd] = NULL;
 	free(buf);
 }
 
